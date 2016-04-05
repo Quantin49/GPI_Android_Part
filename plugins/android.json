@@ -1,0 +1,27 @@
+{
+    "prepare_queue": {
+        "installed": [],
+        "uninstalled": []
+    },
+    "config_munge": {
+        "files": {}
+    },
+    "installed_plugins": {
+        "cordova-plugin-whitelist": {
+            "PACKAGE_NAME": "com.imie.gpiandroid"
+        },
+        "cordova-sqlite-storage": {
+            "PACKAGE_NAME": "com.imie.gpiandroid"
+        },
+        "cordova-plugin-barcodescanner": {
+            "PACKAGE_NAME": "com.imie.gpiandroid"
+        },
+        "cordova-plugin-dialogs": {
+            "PACKAGE_NAME": "com.imie.gpiandroid"
+        },
+        "cordova-plugin-inappbrowser": {
+            "PACKAGE_NAME": "com.imie.gpiandroid"
+        }
+    },
+    "dependent_plugins": {}
+}

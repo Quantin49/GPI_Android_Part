@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<html>
+<head>
+        <!--
+        Customize this policy to fit your own app's needs. For more guidance, see:
+            https://github.com/apache/cordova-plugin-whitelist/blob/master/README.md#content-security-policy
+        Some notes:
+            * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
+            * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
+            * Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
+                * Enable inline JS: add 'unsafe-inline' to default-src
+            -->
+            <meta http-equiv="Content-Security-Policy" content="default-src *; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' 'unsafe-eval'">
+            <meta name="format-detection" content="telephone=no">
+            <meta name="msapplication-tap-highlight" content="no">
+            <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+            <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+            <link rel="stylesheet" type="text/css" href="css/jqueryCSS.css">
+            <link rel="stylesheet" type="text/css" href="css/gpiCss.css">
+            <title>PageAndroid</title>
+        </head>
+    <body>
+            <!-- Page Connexion -->
+            <div data-role="page" data-theme="a" id="page1">
+                <div id="hautPage1" data-role="header">
+                    <h1>Connexion</h1>
+                    <!-- Pour Test -->
+                    <a href="#page2" id="scanQrCode" class="ui-btn ui-mini" data-icon="check" data-iconpos="right">Scanner QrCode</a>
+                    <!-- <a target="_blank" href="#page2"><button>Scanner QrCode</button></a> -->
+                </div>
+
+                <div data-role="main" class="ui-content">
+                    <form>
+                        <img id="logoImie" src="img/LogoIMIE.png" alt="LOGO_IMIE"/>
+                        <h3>Identification</h3>
+                        <input id="loginSignIn" type="text" placeholder="username" data-theme="a">
+                    </br>
+
+                    <input id="pwdSignIn" type="password" placeholder="password" data-theme="a">
+                    </br>
+
+                    <button id="btnLogin" type="submit" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-check">Log In</button>
+                    </form>
+                </div>
+
+            <div id="basPage1" data-role="footer">
+                <h1>GPI - Android Version</h1>
+            </div>
+        </div>
+        <!-- Page Scanner QrCode -->
+        <div data-role="page" data-theme="a" id="page2">
+            <div id="hautPage2" data-role="header">
+                <h1>Scanner QR Code</h1>
+                <a href="#page1" id="btnConnexion" class="ui-btn ui-mini" data-icon="check" data-iconpos="right">Deconnexion</a>
+            </div>
+
+                <div data-role="content" data-theme="b" id="index-content">
+                    <a id="btn1" target="_blank" href="javascript:scan();"><button>Scanner</button></a>
+                    <a target="_blank" href="#page2"><button>Supprimer QrCode Scann</button></a>
+                    <!-- Pour Test -->
+                    <a target="_blank" href="#page3" id="pageMateriel"><button>Page Fiche</button></a>
+                </div>
+
+                <div id="basPage2" data-role="footer">
+                    <h1>GPI - Android Version</h1>
+                </div>
+        </div>
+        <!-- Page Afficher Infos QrCode -->
+        <div data-role="page" data-theme="a" id="page3">
+                <div id="hautPage3" data-role="header">
+                    <h1>Infos QR Code</h1>
+                    <a href="#page1" id="btnConnexion" class="ui-btn ui-mini" data-icon="check" data-iconpos="right">Deconnexion</a>
+                    <a href="#page2" id="scanQrCode" class="ui-btn ui-mini" data-icon="check" data-iconpos="right">Scanner QR Code</a>
+                </div>
+
+                <div data-role="main" class="ui-content" id="fiche">
+                    <!-- Affichage Fiche Materiel -->
+                    <form id="ficheMateriel" method="get">
+                        <table id="tableData" data-inset="true" data-shadow="false">
+                        </table>
+                    </form>
+
+                    <!-- <a target="_blank" href="#page4" id="btnModifSalle"><button>Modifier Salle</button></a> -->
+                    <a href="#page4" id="btnModifSalle" class="ui-btn ui-mini" data-icon="check" data-iconpos="right">Modifier Salle</a>
+                </div>
+
+                <div id="basPage3" data-role="footer">
+                    <h1>GPI - Android Version</h1>
+                </div>
+        </div>
+        <!-- Page Modifier Salle -->
+        <div data-role="page" data-theme="a" id="page4">
+                <div id="hautPage4" data-role="header">
+                    <h1>Modifier Salle</h1>
+                    <a href="#page1" id="btnConnexion" class="ui-btn ui-mini" data-icon="check" data-iconpos="right">Deconnexion</a>
+                    <a href="#page2" id="scanQrCode" class="ui-btn ui-mini" data-icon="check" data-iconpos="right">Scanner QR Code</a>
+                    <a href="#page3" id="pageFiche" class="ui-btn ui-mini" data-icon="check" data-iconpos="right">Retour Fiche</a>
+                </div>
+
+                <div data-role="main" class="ui-content">
+                    <p> Liste des Salles:</p> 
+                    <ul id="sallelist" data-role="listview" data-inset="true" data-shadow="false">
+                    </ul>
+                    <p>Cliquer sur la nouvelle salle d'affectation du materiel</p>
+                </div>
+
+                <div id="basPage4" data-role="footer">
+                    <h1>GPI - Android Version</h1>
+                </div>
+        </div>
+        <script type="text/javascript" src="cordova.js"></script>
+        <script type="text/javascript" src="js/jquery.js"></script>
+        <script type="text/javascript" src="js/jquery.mobile-1.4.5.min.js"></script>
+        <script type="text/javascript" src="js/qrcode.js"></script>
+    </body>
+</html>
