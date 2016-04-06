@@ -1,7 +1,8 @@
 ﻿document.addEventListener("deviceready", onDeviceReady, false);
 
 function onDeviceReady() {
-    alert("Lancement Application terminé");
+
+    alert("application Chargé")
 
     if(localStorage.getItem("LocalData") == null)
     {
@@ -10,11 +11,13 @@ function onDeviceReady() {
         localStorage.setItem("LocalData", data);
     }
 
+    //-------------------------
     $("#btn1").on("click",function(){
         //Appel à la fonction qui traite le scan
         scan();
     });
 
+    //--------------------------
     $(document).on("pagebeforeshow", "#display", function() {
         $("table#allTable tbody").empty();
 
@@ -27,7 +30,6 @@ function onDeviceReady() {
         for(var count = 0; count < data.length; count++)
         {
             html = html + "<tr><td>" + data[count][0] + "</td><td>" + data[count][1] + "</a></td></tr>";
-
         }
 
         $("table#allTable tbody").append(html).closest("table#allTable").table("refresh").trigger("create");
@@ -51,6 +53,48 @@ function onDeviceReady() {
     clickSalle();
 };
 //-------------Fin OnDeviceReady----------//
+
+//-------------Fonction Scan---------------//
+function scan()
+{
+    cordova.plugins.barcodeScanner.scan(
+        function (result) {
+            if(!result.cancelled)
+            {
+                //alert("Resultat no cancelled");
+                if(result.format == "QR_CODE")
+                {
+                    //alert("QR CODE Ok");
+                    navigator.notification.prompt("Saisir un nom pour le materiel scanné",  function(input){
+                        var name = input.input1;
+                        var value = result.text;
+
+                        var data = localStorage.getItem("LocalData");
+                        console.log(data);
+                        data = JSON.parse(data);
+                        data[data.length] = [name, value];
+
+                        localStorage.setItem("LocalData", JSON.stringify(data));
+
+                        alert("Element ajouté avec succès");
+
+                    });
+                }else{
+                    navigator.notification.alert('Code Scan Attendu: QR_CODE \n  Type de Code Scanné: '+result.format+'\nResultat reçu: '+result.text,null,'Erreur de format','Ok');
+                }
+            }
+            else
+            {
+                 alert("Vous avez annulé le scan");
+            }
+        },
+
+        function (error) {
+            alert("Erreur de scan: " + error);
+        }
+   );
+}
+//----------Fin de la fonction de scan de l'application ------//
 
 //-------------Fonction Deconnexion ------//
 function BtnDeconnexion() {
@@ -82,9 +126,55 @@ function BtnModifSalle() {
     });
 }
 
+//-------------Fonction Recup data Salle--//
+function recupDataSalle() {
+    //alert("fct recup salle");
+    $.ajax({
+        type: "GET",
+        url:"http://10.4.0.118:8080/gpi_web/web/api/salle",
+        //url:"http://jeanbenjamin.free.fr/php/json_send_data.php",
+        success:function(data)
+        {
+            $.each(data, function(idx, item)
+            {
+                $("#sallelist").append(
+                    '<ul data-role="collapsible" data-iconpos="right" data-inset="false">'+
+                        '<ul data-role="listview">'+
+                            '<li>'+item.nom+'</li>'+
+                        '</ul>'+
+                    '</ul>'
+                );
+            })
+        },
+        error:function(xhr,textStatus,err)
+        {
+            alert("readyState: "+xhr.readyState);
+        }
+});
+}
+
+function clickSalle(){
+    $("#sallelist").on('click', 'li', function () {
+        //alert("click OK");
+        var reponse = confirm("Vous avez selectionner la salle: "+ $(this).text()+ ", Confirmer ?");
+        var newSalle = $(this).text();
+        if (reponse) {
+            //alert("OK");
+            //alert(newSalle);
+            $("#materielSalle").val(newSalle);
+            $.mobile.pageContainer.pagecontainer("change", "#page3");
+            //requete MAJ sur BDD
+        }
+    });
+}
+
 //-------------Fonction Recup Data fiche --------//
 function recupDataFiche() {
-    // alert("Fct RecupData");
+    //alert("Fct RecupData");
+    //var id = $("#allTable td:last");
+    //Pour Test sans Smartphone
+    var id = "Norgeot";
+    alert(id);
     //Partie recuperation data
     $.ajax({
         type: "GET",
@@ -93,7 +183,8 @@ function recupDataFiche() {
         {
             $.each(data, function(idx, item)
             {
-                if (item.nom == "Norgeot") {
+                //if (item.nom == "Norgeot") {
+                if (item.nom == id) {
                     // alert(item.nom);
                     // alert(item.prenom);
                     // alert(item.adresse);
@@ -146,82 +237,3 @@ function recupDataFiche() {
         }
     });
 }
-
-//-------------Fonction Recup data Salle--//
-function recupDataSalle() {
-    //alert("fct recup salle");
-    $.ajax({
-        type: "GET",
-        url:"http://jeanbenjamin.free.fr/php/json_send_data.php",
-        success:function(data)
-        {
-            $.each(data, function(idx, item)
-            {
-                $("#sallelist").append(
-                    '<ul data-role="collapsible" data-iconpos="right" data-inset="false">'+
-                        '<ul data-role="listview">'+
-                            '<li>'+item.nom+'</li>'+
-                        '</ul>'+
-                    '</ul>'
-                );
-            })
-        },
-        error:function(xhr,textStatus,err)
-        {
-            alert("readyState: "+xhr.readyState);
-        }
-});
-}
-
-function clickSalle(){
-    $("#sallelist").on('click', 'li', function () {
-        //alert("click OK");
-        var reponse = confirm("Vous avez selectionner la salle: "+ $(this).text()+ ", Confirmer ?");
-        var newSalle = $(this).text();
-        if (reponse) {
-            //alert("OK");
-            //alert(newSalle);
-            $("#materielSalle").val(newSalle);
-            $.mobile.pageContainer.pagecontainer("change", "#page3");
-            //requete MAJ sur BDD
-        }
-    });
-}
-
-//-------------Fonction Scan--------------//
-function scan()
-{
-    cordova.plugins.barcodeScanner.scan(
-        function (result) {
-            if(!result.cancelled)
-            {
-                if(result.format == "QR_CODE")
-                {
-                    navigator.notification.prompt("Saisir le nom des données",  function(input){
-                        var name = input.input1;
-                        var value = result.text;
-
-                        var data = localStorage.getItem("LocalData");
-                        console.log(data);
-                        data = JSON.parse(data);
-                        data[data.length] = [name, value];
-
-                        localStorage.setItem("LocalData", JSON.stringify(data));
-
-                        alert("Element ajouté avec succès");
-                    });
-                }else{
-                    navigator.notification.alert('Code Scan Attendu: QR_CODE \n  Type de Code Scanné: '+result.format+'\nResultat reçu: '+result.text,null,'Erreur de format','Ok');
-                }
-            }
-            else
-            {
-                 alert("Vous avez annulé le scan");
-            }
-        },
-        function (error) {
-            alert("Erreur de scan: " + error);
-        }
-   );
-}
-//----------Fin de la fonction de scan de l'application ------//

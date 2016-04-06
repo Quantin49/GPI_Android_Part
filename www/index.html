@@ -71,12 +71,12 @@
                 <h1>Scanner QR Code</h1>
                 <a href="#page1" id="btnConnexion" class="ui-btn ui-mini" data-icon="check" data-iconpos="right">Deconnexion</a>
             </div>
-
-                <div data-role="content" data-theme="b" id="index-content">
+                
+                <div data-role="content" data-theme="a" id="index-content">
                     <a id="btn1" target="_blank" href="javascript:scan();"><button>Scanner</button></a>
-                    <a target="_blank" href="#page2"><button>Supprimer QrCode Scann</button></a>
+                    <a target="_blank" href="#display"><button>Afficher contenu QrCode</button></a>
                     <!-- Pour Test -->
-                    <a target="_blank" href="#page3" id="pageMateriel"><button>Page Fiche</button></a>
+                    <a target="_blank" href="#page3" id="pageMateriel"><button>Afficher Fiche Materiel</button></a>
                 </div>
 
                 <div id="basPage2" data-role="footer">
@@ -126,6 +126,32 @@
                     <h1>GPI - Android Version</h1>
                 </div>
         </div>
+
+        <div data-role="page" id="display">
+                <div id="hautPageDisplay" data-role="header">
+                    <a href="#page2" id="scanQrCode" class="ui-btn ui-mini" data-icon="check" data-iconpos="right">Scanner QR Code</a>
+                    <h1>Affichage Info QRCode</h1>
+                </div>
+
+                <div data-role="main" class="ui-content">
+                    <table data-role="table" data-mode="column" id="allTable" class="ui-responsive table-stroke">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Value</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div id="basPageDisplay" data-role="footer">
+                    <h1>GPI - Android Version</h1>
+                </div>
+
+            </div>
+
         <script type="text/javascript" src="cordova.js"></script>
         <script type="text/javascript" src="js/jquery.js"></script>
         <script type="text/javascript" src="js/jquery.mobile-1.4.5.min.js"></script>

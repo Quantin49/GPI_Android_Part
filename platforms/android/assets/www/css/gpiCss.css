@@ -18,12 +18,12 @@ ul {
 	color: black;
 }
 
-#page1, #page2, #page3, #page4, #index-content {
+#page1, #page2, #page3, #page4, #index-content, #display {
 	text-align: center;
 	background-color: #e7e1c6;
 }
 
-#hautPage1, #hautPage2, #hautPage3, #hautPage4 {
+#hautPage1, #hautPage2, #hautPage3, #hautPage4, #hautPageDisplay {
 	border-style: ridge;
 	border-color: black;
 	border-width: 2px;
@@ -34,7 +34,7 @@ ul {
 	height: 75px;
 }
 
-#basPage1, #basPage2, #basPage3, #basPage4 {
+#basPage1, #basPage2, #basPage3, #basPage4, #basPageDisplay {
 	border-style: ridge;
 	border-color: black;
 	border-width: 2px;
@@ -48,7 +48,7 @@ ul {
 	font-weight: bold;
 }
 
-#loginSignIn, #pwdSignIn {
+#loginSignIn, #pwdSignIn, button {
 	background-color: white;
 	color: black;
 }
